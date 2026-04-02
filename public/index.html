@@ -4,263 +4,740 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hoxton Wealth — Risk Questionnaire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#ffffff;
-      --card:#F5F7FA;
-      --text:#1F2937;
-      --muted:#6B7280;
-      --border:#E5E7EB;
-      --primary:#0B3D3F;
-      --shadow:0 10px 24px rgba(0,0,0,.07);
-      --teal:#2AA7A1;
-      --coral:#E06B5A;
-    }
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-    .wrap{ width:min(900px,92vw); margin:26px auto 60px; }
-    .header{
-      background:var(--primary);
-      color:#fff;
-      border-radius:16px;
-      padding:14px 16px;
-      display:flex;
-      align-items:center;
-      gap:12px;
-      box-shadow:var(--shadow);
-    }
-    .header img{ height:32px; width:auto; }
-    .header .t1{ font-weight:800; letter-spacing:.2px; }
-    .header .t2{ font-size:12px; opacity:.9; }
-
-    .card{
-      margin-top:14px;
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:16px;
-      box-shadow:var(--shadow);
-    }
-    h1{ margin:6px 0 6px; color:var(--primary); font-size:26px; }
-    h2{ margin:8px 0 10px; font-size:18px; }
-    p{ margin:0; color:var(--muted); line-height:1.5; }
-
-    .btn{
-      border:0;
-      background:var(--primary);
-      color:#fff;
-      padding:12px 14px;
-      border-radius:12px;
-      font-size:15px;
-      font-weight:800;
-      cursor:pointer;
-      width:100%;
-    }
-    .btn:hover{ filter:brightness(1.05); }
-    .btn.ghost{
-      background:transparent;
-      color:var(--primary);
-      border:1px solid rgba(11,61,63,.35);
+    :root {
+      --hw-dark: #033839;
+      --hw-teal: #1ab0c4;
+      --hw-teal-dark: #158fa0;
+      --hw-sage: #B3D3CF;
+      --hw-sage-light: #d9ecea;
+      --hw-mid: #2E5959;
+      --hw-grey: #6B8E8D;
+      --hw-white: #FDFDFD;
+      --hw-bg: #f7fafa;
+      --radius: 12px;
+      --shadow: 0 2px 12px rgba(3, 56, 57, 0.08);
+      --shadow-lg: 0 8px 32px rgba(3, 56, 57, 0.12);
     }
 
-    .row{ display:flex; gap:12px; flex-wrap:wrap; }
-    .row > *{ flex:1; min-width:200px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .progress{
-      height:8px; background:#E5E7EB; border-radius:999px; overflow:hidden; margin:10px 0 14px;
-    }
-    .progress > div{
-      height:100%; width:0%;
-      background:linear-gradient(90deg,#0C9B8A,#0AAE6F);
+    html, body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background: var(--hw-bg);
+      color: var(--hw-dark);
     }
 
-    .option{
-      display:block;
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:12px 12px;
-      cursor:pointer;
-      font-weight:700;
-      color:var(--primary);
-    }
-    .option input{ margin-right:10px; transform:scale(1.1); }
-    .option:hover{ border-color:rgba(11,61,63,.35); }
-
-    .meta{
-      display:flex; justify-content:space-between; align-items:center;
-      font-size:12px; color:var(--muted); font-weight:800;
-      margin-bottom:8px;
-    }
-    .meta button{
-      background:transparent; border:0; color:var(--muted); cursor:pointer; font-weight:800;
-      padding:6px 8px; border-radius:10px;
-    }
-    .meta button:hover{ background:rgba(11,61,63,.06); color:var(--primary); }
-
-    label{ display:flex; flex-direction:column; gap:6px; font-size:14px; font-weight:700; color:#374151; }
-    input[type="number"]{
-      width:100%;
-      border:1px solid var(--border);
-      border-radius:10px;
-      padding:10px 12px;
-      font-size:15px;
-      background:#fff;
-    }
-    .errorBox{
-      display:none;
-      margin-top:12px;
-      background:#FEF2F2;
-      border:1px solid #FCA5A5;
-      color:#991B1B;
-      padding:10px 12px;
-      border-radius:12px;
-      font-size:14px;
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 16px;
     }
 
-    .legend{
-      display:flex; gap:14px; flex-wrap:wrap;
-      margin-top:10px; font-size:12px; color:var(--muted);
+    .app {
+      width: 100%;
+      max-width: 520px;
+      min-height: 540px;
+      max-height: 90vh;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: var(--shadow-lg);
+      overflow-y: auto;
+      position: relative;
+      display: flex;
+      flex-direction: column;
     }
-    .dot{ width:10px; height:10px; border-radius:999px; display:inline-block; margin-right:6px; }
-    .dot.stocks{ background:#E06B5A; }
-    .dot.bonds{ background:#3A91C6; }
-    .dot.res{ background:#8B5CF6; }
 
-    .bar{
-      height:14px; border-radius:999px; overflow:hidden; background:#E5E7EB;
-      display:flex; margin-top:8px;
+    @media (max-width: 560px) {
+      body { padding: 0; }
+      .app {
+        border-radius: 0;
+        min-height: 100vh;
+        max-width: 100%;
+      }
     }
-    .bar > div{ height:100%; }
-    .bar .stocks{ background:#E06B5A; }
-    .bar .bonds{ background:#3A91C6; }
-    .bar .res{ background:#8B5CF6; }
 
-    @media (max-width:720px){
-      .meta{ flex-direction:column; align-items:flex-start; gap:6px; }
+    /* ---- Header ---- */
+    .app-header {
+      padding: 24px 28px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+    .logo-img { height: 28px; width: auto; }
+
+    /* ---- Screens ---- */
+    .screen {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      padding: 20px 28px 28px;
+      animation: fadeIn 0.3s ease;
+    }
+    .screen.active { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- Buttons ---- */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: var(--hw-teal);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+      margin-top: auto;
+    }
+    .btn-primary:hover {
+      background: var(--hw-teal-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(26, 176, 196, 0.3);
+    }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--hw-dark);
+      border: 1.5px solid #e2e8e8;
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .btn-secondary:hover {
+      border-color: var(--hw-teal);
+      background: var(--hw-sage-light);
+    }
+
+    /* ---- Welcome ---- */
+    .welcome-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: var(--hw-sage-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .welcome-icon svg { width: 32px; height: 32px; stroke: var(--hw-teal); }
+
+    .welcome-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--hw-dark);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .welcome-desc {
+      font-size: 14px;
+      color: var(--hw-grey);
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .welcome-meta {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .welcome-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--hw-grey);
+      font-weight: 500;
+    }
+    .welcome-meta-item svg { width: 16px; height: 16px; stroke: var(--hw-teal); }
+
+    /* ---- Progress ---- */
+    .progress-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .back-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: var(--hw-grey);
+      display: flex;
+      align-items: center;
+    }
+    .back-btn:hover { color: var(--hw-dark); }
+    .back-btn svg { width: 20px; height: 20px; }
+    .progress-wrapper { flex: 1; }
+    .progress-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--hw-grey);
+      margin-bottom: 6px;
+    }
+    .progress-bar {
+      height: 6px;
+      background: #e2e8e8;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--hw-teal), #20c5a0);
+      border-radius: 3px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ---- Quiz options ---- */
+    .quiz-question {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--hw-dark);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .quiz-options { display: grid; gap: 10px; }
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border: 1.5px solid #e2e8e8;
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--hw-dark);
+      transition: all 0.2s;
+    }
+    .quiz-option:hover {
+      border-color: var(--hw-teal);
+      background: var(--hw-sage-light);
+    }
+    .quiz-option input[type="radio"] {
+      accent-color: var(--hw-teal);
+      transform: scale(1.1);
+    }
+
+    /* ---- Allocation ---- */
+    .alloc-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--hw-dark);
+      margin-bottom: 6px;
+    }
+    .alloc-desc {
+      font-size: 14px;
+      color: var(--hw-grey);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .alloc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    @media (max-width: 560px) {
+      .alloc-grid { grid-template-columns: 1fr; }
+    }
+    .alloc-label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--hw-grey);
+    }
+    .alloc-input {
+      padding: 12px 14px;
+      border: 1.5px solid #e2e8e8;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--hw-dark);
+      background: #fff;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .alloc-input:focus { border-color: var(--hw-teal); }
+
+    .alloc-error {
+      display: none;
+      background: #fef2f2;
+      border: 1px solid #FCA5A5;
+      color: #991B1B;
+      padding: 10px 12px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    .alloc-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    /* ---- Form ---- */
+    .form-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--hw-dark);
+      margin-bottom: 4px;
+    }
+    .form-desc {
+      font-size: 14px;
+      color: var(--hw-grey);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    @media (max-width: 560px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--hw-grey);
+    }
+    .form-input, .form-select {
+      padding: 12px 14px;
+      border: 1.5px solid #e2e8e8;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--hw-dark);
+      background: #fff;
+      transition: border-color 0.2s;
+      outline: none;
+      width: 100%;
+    }
+    .form-input:focus, .form-select:focus {
+      border-color: var(--hw-teal);
+    }
+    .form-group.error .form-input,
+    .form-group.error .form-select {
+      border-color: #e74c3c;
+    }
+    .form-error {
+      display: none;
+      font-size: 11px;
+      color: #e74c3c;
+    }
+    .form-group.error .form-error { display: block; }
+
+    .phone-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 560px) {
+      .phone-row { grid-template-columns: 1fr; }
+    }
+    .phone-code { font-size: 13px; }
+
+    .form-error-box {
+      display: none;
+      background: #fef2f2;
+      border: 1px solid #FCA5A5;
+      color: #991B1B;
+      padding: 10px 12px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    /* ---- Loading ---- */
+    .loading-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      gap: 16px;
+    }
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 3px solid #e8f0ef;
+      border-top-color: var(--hw-teal);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text {
+      font-size: 14px;
+      color: var(--hw-grey);
+      font-weight: 500;
+    }
+
+    /* ---- Results ---- */
+    .persona-card {
+      background: linear-gradient(135deg, var(--hw-dark) 0%, var(--hw-mid) 100%);
+      border-radius: 16px;
+      padding: 28px 24px;
+      color: #fff;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .persona-emoji { font-size: 36px; margin-bottom: 8px; }
+    .persona-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .persona-score { font-size: 13px; opacity: 0.8; }
+
+    .result-section {
+      margin-bottom: 16px;
+    }
+    .result-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--hw-grey);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+
+    .alloc-bar {
+      height: 14px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #e2e8e8;
+      display: flex;
+      margin-bottom: 8px;
+    }
+    .alloc-bar > div { height: 100%; transition: width 0.6s ease; }
+    .alloc-bar .seg-stocks { background: #E06B5A; }
+    .alloc-bar .seg-bonds { background: #3A91C6; }
+    .alloc-bar .seg-res { background: #8B5CF6; }
+
+    .alloc-legend {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--hw-grey);
+    }
+    .alloc-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+
+    .result-kv {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 14px;
+    }
+    .result-kv:last-child { border-bottom: none; }
+    .result-kv-label { color: var(--hw-grey); }
+    .result-kv-value { font-weight: 700; color: var(--hw-dark); }
+
+    .result-cta {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .result-cta p {
+      font-size: 13px;
+      color: var(--hw-grey);
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    /* ---- Error screen ---- */
+    #screen-error .welcome-icon { background: #fef2f2; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <!-- Magnet Header (same for all tools) -->
-    <div class="header">
-      <img src="/hoxton-logo.png" alt="Hoxton Wealth">
-      <div>
-        <div class="t1">Hoxton Wealth</div>
-        <div class="t2">Risk Questionnaire</div>
-      </div>
+  <div class="app">
+    <div class="app-header">
+      <img src="/hoxton-logo.png" alt="Hoxton Wealth" class="logo-img">
     </div>
 
-    <!-- STEP: Welcome -->
-    <div id="welcome" class="card">
-      <h1>Discover Your Investment Profile</h1>
-      <p>Answer 11 questions to understand your risk tolerance and get a personalised asset allocation recommendation.</p>
-
-      <div style="margin-top:14px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px;">
-        <ul style="margin:0;padding-left:18px;color:#374151;">
-          <li>Takes about 3 minutes</li>
-          <li>Get your personalised risk profile</li>
-          <li>See your recommended asset allocation</li>
-        </ul>
+    <!-- ====== WELCOME ====== -->
+    <div class="screen active" id="screen-welcome">
+      <div class="welcome-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
+        </svg>
       </div>
-
-      <div style="margin-top:14px;">
-        <button class="btn" id="startBtn">Start Assessment →</button>
-      </div>
-    </div>
-
-    <!-- STEP: Quiz -->
-    <div id="quiz" class="card" style="display:none;">
-      <div class="progress"><div id="progressBar"></div></div>
-
-      <div class="meta">
-        <button id="backBtn">← Back</button>
-        <div><span id="qNum">1</span> of <span id="qTotal">11</span></div>
-      </div>
-
-      <h2 id="qText"></h2>
-      <div id="options" style="display:grid;gap:10px;"></div>
-    </div>
-
-    <!-- STEP: Allocation -->
-    <div id="allocation" class="card" style="display:none;">
-      <h2 style="color:var(--primary);margin:6px 0 6px;">Your Current Asset Mix</h2>
-      <p>Enter your current allocation. It must total 100%.</p>
-
-      <div class="row" style="margin-top:14px;">
-        <label>Stocks (%)
-          <input type="number" id="allocStocks" inputmode="numeric" min="0" max="100" placeholder="e.g., 50">
-        </label>
-        <label>Bonds (%)
-          <input type="number" id="allocBonds" inputmode="numeric" min="0" max="100" placeholder="e.g., 40">
-        </label>
-        <label>Short-term Reserves (%)
-          <input type="number" id="allocRes" inputmode="numeric" min="0" max="100" placeholder="e.g., 10">
-        </label>
-      </div>
-
-      <div id="allocError" class="errorBox"></div>
-
-      <div class="row" style="margin-top:14px;">
-        <button class="btn" id="toLeadBtn">Continue →</button>
-        <button class="btn ghost" id="backToQuestionsBtn">Back to Questions</button>
-      </div>
-    </div>
-
-    <!-- STEP: Summary (optional quick view before lead) -->
-    <div id="summary" class="card" style="display:none;">
-      <h2 style="color:var(--primary);margin:6px 0 6px;">Your Suggested Allocation (Preview)</h2>
-      <p>This is based on your answers. You’ll see full results after the lead form.</p>
-
-      <div style="margin-top:12px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px;">
-        <div style="font-weight:800;color:#111827;">Risk Profile: <span id="sumProfile"></span></div>
-        <div style="font-weight:800;color:#111827;margin-top:6px;">Risk Score: <span id="sumScore"></span></div>
-
-        <div style="margin-top:12px;font-size:12px;color:var(--muted);font-weight:800;letter-spacing:.6px;text-transform:uppercase;">
-          Suggested Allocation
+      <h1 class="welcome-title">Discover Your Investment Profile</h1>
+      <p class="welcome-desc">Answer 11 questions to understand your risk tolerance and get a personalised asset allocation recommendation.</p>
+      <div class="welcome-meta">
+        <div class="welcome-meta-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          ~3 minutes
         </div>
-
-        <div class="bar">
-          <div class="stocks" id="barS" style="width:0%"></div>
-          <div class="bonds" id="barB" style="width:0%"></div>
-          <div class="res" id="barR" style="width:0%"></div>
+        <div class="welcome-meta-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          Quick &amp; easy
         </div>
+      </div>
+      <button class="btn-primary" onclick="startTool()">
+        Get Started
+        <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+        </svg>
+      </button>
+    </div>
 
-        <div class="legend">
-          <span><i class="dot stocks"></i>Stocks: <b id="sumStocks">0%</b></span>
-          <span><i class="dot bonds"></i>Bonds: <b id="sumBonds">0%</b></span>
-          <span><i class="dot res"></i>Reserves: <b id="sumRes">0%</b></span>
+    <!-- ====== QUIZ ====== -->
+    <div class="screen" id="screen-quiz">
+      <div class="progress-area">
+        <button class="back-btn" onclick="prevStep()" id="btn-back">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+          </svg>
+        </button>
+        <div class="progress-wrapper">
+          <div class="progress-label" id="progress-label">Question 1 of 11</div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 9%"></div>
+          </div>
         </div>
       </div>
 
-      <div style="margin-top:14px;">
-        <button class="btn" id="goLeadNowBtn">Go to Lead Form →</button>
+      <h2 class="quiz-question" id="q-text"></h2>
+      <div class="quiz-options" id="q-options"></div>
+    </div>
+
+    <!-- ====== ALLOCATION ====== -->
+    <div class="screen" id="screen-allocation">
+      <h2 class="alloc-title">Your Current Asset Mix</h2>
+      <p class="alloc-desc">Enter your current allocation. It must total 100%.</p>
+
+      <div class="alloc-grid">
+        <label class="alloc-label">Stocks (%)
+          <input class="alloc-input" type="number" id="alloc-stocks" inputmode="numeric" min="0" max="100" placeholder="e.g. 50">
+        </label>
+        <label class="alloc-label">Bonds (%)
+          <input class="alloc-input" type="number" id="alloc-bonds" inputmode="numeric" min="0" max="100" placeholder="e.g. 40">
+        </label>
+        <label class="alloc-label">Reserves (%)
+          <input class="alloc-input" type="number" id="alloc-res" inputmode="numeric" min="0" max="100" placeholder="e.g. 10">
+        </label>
+      </div>
+
+      <div class="alloc-error" id="alloc-error"></div>
+
+      <div class="alloc-buttons">
+        <button class="btn-secondary" onclick="backToQuiz()">Back</button>
+        <button class="btn-primary" onclick="submitAllocation()">Continue</button>
       </div>
     </div>
 
+    <!-- ====== FORM ====== -->
+    <div class="screen" id="screen-form">
+      <h2 class="form-title">Get Your Results</h2>
+      <p class="form-desc">Enter your details to view your personalised risk profile and allocation.</p>
+
+      <div class="form-error-box" id="form-error-box"></div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="input-first">First Name *</label>
+          <input class="form-input" type="text" id="input-first" placeholder="First name">
+          <span class="form-error">Required</span>
+        </div>
+        <div class="form-group">
+          <label for="input-last">Last Name *</label>
+          <input class="form-input" type="text" id="input-last" placeholder="Last name">
+          <span class="form-error">Required</span>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:14px;">
+        <label for="input-email">Email Address *</label>
+        <input class="form-input" type="email" id="input-email" placeholder="name@example.com">
+        <span class="form-error">Valid email required</span>
+      </div>
+
+      <div class="form-group" style="margin-bottom:14px;">
+        <label for="input-country">Country of Residence *</label>
+        <select class="form-input form-select" id="input-country">
+          <option value="">Select your country</option>
+        </select>
+        <span class="form-error">Required</span>
+      </div>
+
+      <div class="phone-row" style="margin-bottom:14px;">
+        <div class="form-group">
+          <label for="input-phone-code">Phone Code</label>
+          <select class="form-input form-select phone-code" id="input-phone-code">
+            <option value="971">+971</option>
+            <option value="44">+44</option>
+            <option value="1">+1</option>
+            <option value="61">+61</option>
+            <option value="27">+27</option>
+            <option value="91">+91</option>
+            <option value="65">+65</option>
+            <option value="852">+852</option>
+            <option value="33">+33</option>
+            <option value="49">+49</option>
+            <option value="34">+34</option>
+            <option value="39">+39</option>
+            <option value="81">+81</option>
+            <option value="86">+86</option>
+            <option value="55">+55</option>
+            <option value="7">+7</option>
+            <option value="966">+966</option>
+            <option value="974">+974</option>
+            <option value="968">+968</option>
+            <option value="973">+973</option>
+            <option value="965">+965</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="input-phone">Phone Number *</label>
+          <input class="form-input" type="tel" id="input-phone" placeholder="e.g. 501234567">
+          <span class="form-error">Required</span>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:auto;">
+        <button class="btn-secondary" onclick="showScreen('screen-allocation')">Back</button>
+        <button class="btn-primary" id="btn-submit" onclick="submitForm()">
+          Get Your Results
+          <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ====== LOADING ====== -->
+    <div class="screen" id="screen-loading">
+      <div class="loading-screen">
+        <div class="spinner"></div>
+        <div class="loading-text">Analysing your responses...</div>
+      </div>
+    </div>
+
+    <!-- ====== RESULTS ====== -->
+    <div class="screen" id="screen-results">
+      <div class="persona-card">
+        <div class="persona-emoji" id="res-emoji"></div>
+        <div class="persona-name" id="res-profile"></div>
+        <div class="persona-score">Risk Score: <span id="res-score"></span></div>
+      </div>
+
+      <div class="result-section">
+        <div class="result-section-title">Suggested Allocation</div>
+        <div class="alloc-bar">
+          <div class="seg-stocks" id="bar-s" style="width:0%"></div>
+          <div class="seg-bonds" id="bar-b" style="width:0%"></div>
+          <div class="seg-res" id="bar-r" style="width:0%"></div>
+        </div>
+        <div class="alloc-legend">
+          <span><i class="alloc-legend-dot" style="background:#E06B5A;"></i>Stocks: <b id="res-stocks">0%</b></span>
+          <span><i class="alloc-legend-dot" style="background:#3A91C6;"></i>Bonds: <b id="res-bonds">0%</b></span>
+          <span><i class="alloc-legend-dot" style="background:#8B5CF6;"></i>Reserves: <b id="res-res">0%</b></span>
+        </div>
+      </div>
+
+      <div class="result-section">
+        <div class="result-section-title">Your Current Allocation</div>
+        <div class="result-kv"><span class="result-kv-label">Stocks</span><span class="result-kv-value" id="res-cur-stocks">0%</span></div>
+        <div class="result-kv"><span class="result-kv-label">Bonds</span><span class="result-kv-value" id="res-cur-bonds">0%</span></div>
+        <div class="result-kv"><span class="result-kv-label">Reserves</span><span class="result-kv-value" id="res-cur-res">0%</span></div>
+      </div>
+
+      <div class="result-cta">
+        <button class="btn-primary" id="btn-booking" onclick="window.open(bookingUrl, '_blank')">
+          Speak to an Adviser
+          <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
+        </button>
+        <p>A Hoxton Wealth adviser can help you build a strategy that matches your profile.</p>
+      </div>
+
+      <button class="btn-secondary" style="margin-top:12px;" onclick="resetTool()">Start Again</button>
+    </div>
+
+    <!-- ====== ERROR ====== -->
+    <div class="screen" id="screen-error">
+      <div class="loading-screen">
+        <div class="welcome-icon" style="background:#fef2f2;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#e74c3c" width="32" height="32">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+          </svg>
+        </div>
+        <h2 class="form-title" style="text-align:center;">Something went wrong</h2>
+        <p class="form-desc" style="text-align:center;" id="error-message">
+          We couldn't process your assessment. Please try again.
+        </p>
+        <button class="btn-primary" onclick="retrySubmit()">Try Again</button>
+      </div>
+    </div>
   </div>
 
 <script>
-  // --------- QUESTIONS + PROFILES (same logic as before) ----------
+  /* ============================================================
+     QUESTIONS, PROFILES & SCORING (preserved exactly)
+     ============================================================ */
   const questions = [
     { id:"q1", text:"As I withdraw money from these investments, I plan to spend it over a period of...", options:[
       {label:"2 years or less", value:1},
-      {label:"3–5 years", value:2},
-      {label:"6–10 years", value:3},
-      {label:"11–15 years", value:4},
+      {label:"3\u20135 years", value:2},
+      {label:"6\u201310 years", value:3},
+      {label:"11\u201315 years", value:4},
       {label:"More than 15 years", value:5},
     ]},
     { id:"q2", text:"When making a long-term investment, I plan to keep the money invested for...", options:[
-      {label:"1–2 years", value:1},
-      {label:"3–4 years", value:2},
-      {label:"5–6 years", value:3},
-      {label:"7–8 years", value:4},
+      {label:"1\u20132 years", value:1},
+      {label:"3\u20134 years", value:2},
+      {label:"5\u20136 years", value:3},
+      {label:"7\u20138 years", value:4},
       {label:"More than 8 years", value:5},
     ]},
     { id:"q3", text:"When it comes to investing in mutual funds, ETFs, or individual stocks and bonds, I would describe myself as...", options:[
@@ -279,10 +756,10 @@
     ]},
     { id:"q5", text:"I plan to begin taking money from my investments in...", options:[
       {label:"1 year or less", value:0},
-      {label:"1–2 years", value:1},
-      {label:"3–5 years", value:3},
-      {label:"6–10 years", value:5},
-      {label:"11–15 years", value:6},
+      {label:"1\u20132 years", value:1},
+      {label:"3\u20135 years", value:3},
+      {label:"6\u201310 years", value:5},
+      {label:"11\u201315 years", value:6},
       {label:"More than 15 years", value:7},
     ]},
     { id:"q6", text:"During market declines, I tend to sell portions of my riskier assets and invest in safer ones.", options:[
@@ -297,7 +774,7 @@
       {label:"B (moderate volatility)", value:3},
       {label:"C (most volatility)", value:5},
     ]},
-    { id:"q8", text:"From Sep–Oct 2008, bonds lost 4%. If I owned a bond that lost 4% in 2 months, I would...", options:[
+    { id:"q8", text:"From Sep\u2013Oct 2008, bonds lost 4%. If I owned a bond that lost 4% in 2 months, I would...", options:[
       {label:"Sell all of my bond investment", value:0},
       {label:"Sell a portion of my bond investment", value:2},
       {label:"Hold onto the bond investment", value:4},
@@ -310,7 +787,7 @@
       {label:"Agree", value:2},
       {label:"Strongly agree", value:1},
     ]},
-    { id:"q10", text:"From Sep–Nov 2008, stocks lost over 31%. If I owned a stock that lost 31% in 3 months, I would...", options:[
+    { id:"q10", text:"From Sep\u2013Nov 2008, stocks lost over 31%. If I owned a stock that lost 31% in 3 months, I would...", options:[
       {label:"Sell all of my stock investment", value:0},
       {label:"Sell a portion of my stock investment", value:2},
       {label:"Hold onto the stock investment", value:4},
@@ -326,197 +803,336 @@
   ];
 
   const profiles = [
-    { min:0,  max:15, name:"Conservative Protector", stocks:20, bonds:80, reserves:0 },
-    { min:16, max:21, name:"Cautious Planner",       stocks:30, bonds:70, reserves:0 },
-    { min:22, max:27, name:"Balanced Moderate",      stocks:40, bonds:60, reserves:0 },
-    { min:28, max:33, name:"Balanced Builder",       stocks:50, bonds:50, reserves:0 },
-    { min:34, max:39, name:"Growth Seeker",          stocks:60, bonds:40, reserves:0 },
-    { min:40, max:45, name:"Dynamic Accelerator",    stocks:80, bonds:20, reserves:0 },
-    { min:46, max:100,name:"Aggressive Pioneer",     stocks:100,bonds:0,  reserves:0 },
+    { min:0,  max:15, name:"Conservative Protector", emoji:"\uD83D\uDEE1\uFE0F", stocks:20, bonds:80, reserves:0 },
+    { min:16, max:21, name:"Cautious Planner",       emoji:"\uD83D\uDCCB", stocks:30, bonds:70, reserves:0 },
+    { min:22, max:27, name:"Balanced Moderate",      emoji:"\u2696\uFE0F", stocks:40, bonds:60, reserves:0 },
+    { min:28, max:33, name:"Balanced Builder",       emoji:"\uD83C\uDFD7\uFE0F", stocks:50, bonds:50, reserves:0 },
+    { min:34, max:39, name:"Growth Seeker",          emoji:"\uD83D\uDCC8", stocks:60, bonds:40, reserves:0 },
+    { min:40, max:45, name:"Dynamic Accelerator",    emoji:"\uD83D\uDE80", stocks:80, bonds:20, reserves:0 },
+    { min:46, max:100,name:"Aggressive Pioneer",     emoji:"\uD83D\uDD25", stocks:100,bonds:0,  reserves:0 },
   ];
 
-  function getProfile(score){
-    return profiles.find(p => score>=p.min && score<=p.max) || profiles[0];
+  function getProfile(score) {
+    return profiles.find(p => score >= p.min && score <= p.max) || profiles[0];
   }
-  function clampPct(v){
+
+  function clampPct(v) {
     const n = Number(v);
-    if(!Number.isFinite(n)) return 0;
+    if (!Number.isFinite(n)) return 0;
     return Math.max(0, Math.min(100, Math.round(n)));
   }
-  function totalPct(a){ return clampPct(a.stocks)+clampPct(a.bonds)+clampPct(a.reserves); }
 
-  // --------- STATE ----------
-  let idx = 0;
-  const answers = {}; // {q1: points,...}
-
-  // --------- ELEMENTS ----------
-  const elWelcome = document.getElementById("welcome");
-  const elQuiz = document.getElementById("quiz");
-  const elAlloc = document.getElementById("allocation");
-  const elSummary = document.getElementById("summary");
-
-  const progressBar = document.getElementById("progressBar");
-  const qText = document.getElementById("qText");
-  const optionsWrap = document.getElementById("options");
-  const qNum = document.getElementById("qNum");
-  const qTotal = document.getElementById("qTotal");
-
-  const allocStocks = document.getElementById("allocStocks");
-  const allocBonds = document.getElementById("allocBonds");
-  const allocRes = document.getElementById("allocRes");
-  const allocError = document.getElementById("allocError");
-
-  const sumProfile = document.getElementById("sumProfile");
-  const sumScore = document.getElementById("sumScore");
-  const sumStocks = document.getElementById("sumStocks");
-  const sumBonds = document.getElementById("sumBonds");
-  const sumRes = document.getElementById("sumRes");
-  const barS = document.getElementById("barS");
-  const barB = document.getElementById("barB");
-  const barR = document.getElementById("barR");
-
-  qTotal.textContent = String(questions.length);
-
-  // --------- UI HELPERS ----------
-  function show(step){
-    elWelcome.style.display = step==="welcome" ? "" : "none";
-    elQuiz.style.display = step==="quiz" ? "" : "none";
-    elAlloc.style.display = step==="allocation" ? "" : "none";
-    elSummary.style.display = step==="summary" ? "" : "none";
+  function totalPct(a) {
+    return clampPct(a.stocks) + clampPct(a.bonds) + clampPct(a.reserves);
   }
 
-  function renderQuestion(){
-    const q = questions[idx];
-    qNum.textContent = String(idx+1);
-    qText.textContent = q.text;
+  /* ============================================================
+     COUNTRY LIST (full list from blueprint)
+     ============================================================ */
+  const countries = [
+    "United Arab Emirates", "United Kingdom", "United States", "Australia", "South Africa",
+    "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Armenia",
+    "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus",
+    "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana",
+    "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon",
+    "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros",
+    "Congo", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark",
+    "Djibouti", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea",
+    "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "Gabon",
+    "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea",
+    "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia",
+    "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan",
+    "Kenya", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia",
+    "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia",
+    "Maldives", "Mali", "Malta", "Mauritania", "Mauritius", "Mexico", "Moldova", "Monaco",
+    "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nepal",
+    "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Macedonia",
+    "Norway", "Oman", "Pakistan", "Palestine", "Panama", "Papua New Guinea", "Paraguay",
+    "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda",
+    "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore",
+    "Slovakia", "Slovenia", "Somalia", "South Korea", "South Sudan", "Spain", "Sri Lanka",
+    "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan",
+    "Tanzania", "Thailand", "Togo", "Trinidad and Tobago", "Tunisia", "Turkey",
+    "Turkmenistan", "Uganda", "Ukraine", "Uruguay", "Uzbekistan", "Venezuela", "Vietnam",
+    "Yemen", "Zambia", "Zimbabwe"
+  ];
 
-    const pct = Math.round((idx / questions.length) * 100);
-    progressBar.style.width = pct + "%";
+  // Populate country dropdown
+  const countrySelect = document.getElementById('input-country');
+  countries.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = c;
+    countrySelect.appendChild(opt);
+  });
 
-    optionsWrap.innerHTML = "";
-    q.options.forEach((opt) => {
-      const label = document.createElement("label");
-      label.className = "option";
-      const input = document.createElement("input");
-      input.type = "radio";
-      input.name = "opt";
+  /* ============================================================
+     UTM CAPTURE (blueprint section 7)
+     ============================================================ */
+  const utmParams = {};
+  (function captureUtms() {
+    const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+
+    // 1. From own URL
+    const ownParams = new URLSearchParams(window.location.search);
+    utmKeys.forEach(k => { if (ownParams.get(k)) utmParams[k] = ownParams.get(k); });
+
+    // 2. From parent URL (same-origin iframe)
+    try {
+      if (window.parent !== window) {
+        const parentParams = new URLSearchParams(window.parent.location.search);
+        utmKeys.forEach(k => { if (!utmParams[k] && parentParams.get(k)) utmParams[k] = parentParams.get(k); });
+      }
+    } catch (e) { /* cross-origin — ignore */ }
+
+    // 3. Via postMessage from parent (cross-origin iframe)
+    window.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'UTM_PARAMS') {
+        utmKeys.forEach(k => { if (event.data[k]) utmParams[k] = event.data[k]; });
+      }
+    });
+  })();
+
+  /* ============================================================
+     BOOKING URL (from api/config.js)
+     ============================================================ */
+  let bookingUrl = 'https://hoxtonwealth.com/contact';
+  fetch('/api/config').then(r => r.json()).then(c => {
+    if (c.bookingUrl) bookingUrl = c.bookingUrl;
+  }).catch(() => {});
+
+  /* ============================================================
+     SCREEN NAVIGATION
+     ============================================================ */
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  /* ============================================================
+     QUIZ STATE & RENDERING
+     ============================================================ */
+  let qIdx = 0;
+  const answers = {};
+
+  function startTool() {
+    qIdx = 0;
+    showScreen('screen-quiz');
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    const q = questions[qIdx];
+    document.getElementById('progress-label').textContent = 'Question ' + (qIdx + 1) + ' of ' + questions.length;
+    document.getElementById('progress-fill').style.width = Math.round(((qIdx + 1) / questions.length) * 100) + '%';
+    document.getElementById('q-text').textContent = q.text;
+
+    const wrap = document.getElementById('q-options');
+    wrap.innerHTML = '';
+    q.options.forEach(opt => {
+      const label = document.createElement('label');
+      label.className = 'quiz-option';
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'opt';
       input.value = String(opt.value);
       if (answers[q.id] === opt.value) input.checked = true;
 
-      input.addEventListener("change", () => {
+      input.addEventListener('change', () => {
         answers[q.id] = opt.value;
-        if (idx < questions.length - 1){
-          idx++;
+        if (qIdx < questions.length - 1) {
+          qIdx++;
           renderQuestion();
         } else {
-          show("allocation");
+          showScreen('screen-allocation');
         }
       });
 
       label.appendChild(input);
       label.appendChild(document.createTextNode(opt.label));
-      optionsWrap.appendChild(label);
+      wrap.appendChild(label);
     });
   }
 
-  function calcScore(){
+  function prevStep() {
+    if (qIdx === 0) {
+      showScreen('screen-welcome');
+    } else {
+      qIdx--;
+      renderQuestion();
+    }
+  }
+
+  function backToQuiz() {
+    qIdx = questions.length - 1;
+    showScreen('screen-quiz');
+    renderQuestion();
+  }
+
+  /* ============================================================
+     ALLOCATION
+     ============================================================ */
+  function showAllocError(msg) {
+    const el = document.getElementById('alloc-error');
+    el.textContent = msg;
+    el.style.display = msg ? 'block' : 'none';
+  }
+
+  function submitAllocation() {
+    showAllocError('');
+    const a = {
+      stocks: clampPct(document.getElementById('alloc-stocks').value),
+      bonds: clampPct(document.getElementById('alloc-bonds').value),
+      reserves: clampPct(document.getElementById('alloc-res').value),
+    };
+    const t = totalPct(a);
+    if (t !== 100 && t !== 0) {
+      showAllocError('Your current allocation must total 100%.');
+      return;
+    }
+    showScreen('screen-form');
+  }
+
+  /* ============================================================
+     SCORING & RESULTS BUILDER
+     ============================================================ */
+  function calcScore() {
     let s = 0;
     for (const k in answers) s += Number(answers[k] || 0);
     return s;
   }
 
-  function buildResults(){
+  function buildResults() {
     const riskScore = calcScore();
     const prof = getProfile(riskScore);
 
     let currentAllocation = {
-      stocks: clampPct(allocStocks.value),
-      bonds: clampPct(allocBonds.value),
-      reserves: clampPct(allocRes.value),
+      stocks: clampPct(document.getElementById('alloc-stocks').value),
+      bonds: clampPct(document.getElementById('alloc-bonds').value),
+      reserves: clampPct(document.getElementById('alloc-res').value),
     };
-    if (totalPct(currentAllocation) === 0) currentAllocation = {stocks:0,bonds:0,reserves:100};
+    if (totalPct(currentAllocation) === 0) {
+      currentAllocation = { stocks: 0, bonds: 0, reserves: 100 };
+    }
 
     return {
-      tool: "risk-questionnaire",
+      tool: 'risk-questionnaire',
       riskScore,
       riskProfile: prof.name,
+      emoji: prof.emoji,
       suggestedAllocation: { stocks: prof.stocks, bonds: prof.bonds, reserves: prof.reserves },
       currentAllocation,
       answers: { ...answers }
     };
   }
 
-  function showAllocError(msg){
-    allocError.textContent = msg;
-    allocError.style.display = msg ? "block" : "none";
+  /* ============================================================
+     FORM VALIDATION
+     ============================================================ */
+  function validateForm() {
+    let valid = true;
+    const fields = [
+      { id: 'input-first', validate: v => v.trim().length > 0 },
+      { id: 'input-last', validate: v => v.trim().length > 0 },
+      { id: 'input-email', validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+      { id: 'input-country', validate: v => v.length > 0 },
+      { id: 'input-phone', validate: v => v.trim().length > 0 }
+    ];
+
+    fields.forEach(f => {
+      const el = document.getElementById(f.id);
+      const group = el.closest('.form-group') || el.parentElement.closest('.form-group') || el.parentElement;
+      if (!f.validate(el.value)) {
+        group.classList.add('error');
+        valid = false;
+      } else {
+        group.classList.remove('error');
+      }
+    });
+
+    return valid;
   }
 
-  function updateSummary(){
-    const results = buildResults();
-    sumProfile.textContent = results.riskProfile;
-    sumScore.textContent = String(results.riskScore);
+  /* ============================================================
+     FORM SUBMISSION (non-blocking Ortto)
+     ============================================================ */
+  function submitForm() {
+    const errBox = document.getElementById('form-error-box');
+    errBox.style.display = 'none';
 
-    sumStocks.textContent = results.suggestedAllocation.stocks + "%";
-    sumBonds.textContent = results.suggestedAllocation.bonds + "%";
-    sumRes.textContent = results.suggestedAllocation.reserves + "%";
-
-    barS.style.width = results.suggestedAllocation.stocks + "%";
-    barB.style.width = results.suggestedAllocation.bonds + "%";
-    barR.style.width = results.suggestedAllocation.reserves + "%";
-  }
-
-  // --------- EVENTS ----------
-  document.getElementById("startBtn").addEventListener("click", () => {
-    idx = 0;
-    show("quiz");
-    renderQuestion();
-  });
-
-  document.getElementById("backBtn").addEventListener("click", () => {
-    if (idx === 0) {
-      show("welcome");
-    } else {
-      idx--;
-      renderQuestion();
-    }
-  });
-
-  document.getElementById("backToQuestionsBtn").addEventListener("click", () => {
-    showAllocError("");
-    show("quiz");
-    idx = questions.length - 1;
-    renderQuestion();
-  });
-
-  document.getElementById("toLeadBtn").addEventListener("click", () => {
-    showAllocError("");
-
-    const a = {
-      stocks: clampPct(allocStocks.value),
-      bonds: clampPct(allocBonds.value),
-      reserves: clampPct(allocRes.value),
-    };
-    const t = totalPct(a);
-    if (t !== 100 && t !== 0){
-      showAllocError("Your current allocation must total 100%.");
+    if (!validateForm()) {
+      errBox.textContent = 'Please fill in all required fields.';
+      errBox.style.display = 'block';
       return;
     }
 
-    // Store results and go to lead page
+    const firstName = document.getElementById('input-first').value.trim();
+    const lastName = document.getElementById('input-last').value.trim();
+    const email = document.getElementById('input-email').value.trim();
+    const country = document.getElementById('input-country').value;
+    const phoneCode = document.getElementById('input-phone-code').value;
+    const phone = document.getElementById('input-phone').value.trim();
     const results = buildResults();
-    localStorage.setItem("hoxton_risk_results", JSON.stringify(results));
 
-    // Optional preview step (keeps flow clean)
-    updateSummary();
-    show("summary");
-  });
+    // Show results immediately
+    renderResults(results);
+    showScreen('screen-results');
 
-  document.getElementById("goLeadNowBtn").addEventListener("click", () => {
-    window.location.href = "lead.html";
-  });
+    // Send to Ortto (non-blocking — fire and forget)
+    fetch('/api/ortto-contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName, lastName, email, phone,
+        countryCode: phoneCode, country,
+        results, utmParams
+      })
+    }).then(r => r.json())
+      .then(d => console.log('Ortto result:', d))
+      .catch(err => console.warn('Ortto sync failed:', err));
+  }
 
-  // Start at welcome
-  show("welcome");
+  /* ============================================================
+     RENDER RESULTS
+     ============================================================ */
+  function renderResults(results) {
+    document.getElementById('res-emoji').textContent = results.emoji;
+    document.getElementById('res-profile').textContent = results.riskProfile;
+    document.getElementById('res-score').textContent = String(results.riskScore);
+
+    const s = results.suggestedAllocation;
+    document.getElementById('res-stocks').textContent = s.stocks + '%';
+    document.getElementById('res-bonds').textContent = s.bonds + '%';
+    document.getElementById('res-res').textContent = s.reserves + '%';
+
+    // Animate bars
+    setTimeout(() => {
+      document.getElementById('bar-s').style.width = s.stocks + '%';
+      document.getElementById('bar-b').style.width = s.bonds + '%';
+      document.getElementById('bar-r').style.width = s.reserves + '%';
+    }, 100);
+
+    const c = results.currentAllocation;
+    document.getElementById('res-cur-stocks').textContent = c.stocks + '%';
+    document.getElementById('res-cur-bonds').textContent = c.bonds + '%';
+    document.getElementById('res-cur-res').textContent = c.reserves + '%';
+  }
+
+  /* ============================================================
+     ERROR & RETRY
+     ============================================================ */
+  function retrySubmit() {
+    showScreen('screen-form');
+  }
+
+  function resetTool() {
+    qIdx = 0;
+    for (const k in answers) delete answers[k];
+    document.getElementById('alloc-stocks').value = '';
+    document.getElementById('alloc-bonds').value = '';
+    document.getElementById('alloc-res').value = '';
+    showScreen('screen-welcome');
+  }
 </script>
 </body>
 </html>
